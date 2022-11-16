@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "554470427055",
+    "project_id": "flood-f350e",
+    "storage_bucket": "flood-f350e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554470427055:android:614289599e71c9adf1475a",
+        "android_client_info": {
+          "package_name": "com.example.flood_detection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554470427055-afrrqn63vkq83en4j5jt6976bpvrko5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTKyvA8_PiMEhawemOaOPW56mY47UNU-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554470427055-afrrqn63vkq83en4j5jt6976bpvrko5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
