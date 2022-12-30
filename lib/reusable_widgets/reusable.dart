@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
 FirebaseAuth auth = FirebaseAuth.instance;
 Image logoWidget(String imageName) {
   return Image.asset(
     imageName,
     fit: BoxFit.fitWidth,
     width: 250,
-    height: 250, alignment: Alignment.topCenter,
+    height: 250,
+    alignment: Alignment.topCenter,
   );
 }
-
 
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
@@ -39,47 +40,3 @@ TextField reusableTextField(String text, IconData icon, bool isPasswordType,
         : TextInputType.emailAddress,
   );
 }
-//  firebaseUIButton(BuildContext context, String title, VoidCallback onTap) {
-//   final String text;
-//   final VoidCallback onPressed;
-//
-//   const firebaseUIButton({Key key, this.text, this.onPressed}) : super(key: key);
-//
-//   return GestureDetector(
-//     child: Container(
-//       width: MediaQuery.of(context).size.width,
-//       height: 50,
-//       margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-//       decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
-//       child: Text(
-//        title,
-//        style: const TextStyle(
-//           color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),),
-//
-//       // child: ElevatedButton(
-//       //
-//       //   onPressed: () {
-//       //     onTap();
-//       //   },
-//       //   child: Text(
-//       //     title,
-//       //     style: const TextStyle(
-//       //         color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
-//       //   ),
-//       //   style: ButtonStyle(
-//       //       backgroundColor: MaterialStateProperty.resolveWith((states) {
-//       //         if (states.contains(MaterialState.pressed)) {
-//       //           return Colors.black26;
-//       //         }
-//       //         return Colors.white;
-//       //       }),
-//       //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-//       //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
-//       // ),
-//     ),
-//     onTap: onTap,
-//   );
-// }
-
-
-

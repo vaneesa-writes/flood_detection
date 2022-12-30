@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flood_detection/App%20Pages/home.dart';
-import 'package:flood_detection/App%20Pages/reset_password.dart';
 import 'package:flood_detection/App%20Pages/sign_up.dart';
 import 'package:flood_detection/reusable_widgets/reusable.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _nameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +40,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 20, MediaQuery.of(context).size.height * 0.2, 20, 300),
             child: Column(
               children: <Widget>[
-                logoWidget("assets/images/logo.jpeg"),
+                logoWidget("assets/images/student.png"),
                 const SizedBox(
                   height: 30,
                 ),
                 reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _emailTextController),
+                    _nameTextController),
                 const SizedBox(
                   height: 20,
                 ),
@@ -53,30 +54,36 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                forgetPassword(context),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(
                         fontSize: 27, fontWeight: FontWeight.w700),
                   ),
                   onPressed: () async {
-                    try {
-                      final user = await FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: _emailTextController.text.trim(),
-                              password: _passwordTextController.text.trim());
+                    String name = _nameTextController.text.trim();
+                    String password = _passwordTextController.text.trim();
 
-                      if (user != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => uploadimage()));
-                      }
-                    } catch (e) {
-                      print(e);
+                    QuerySnapshot snap = await FirebaseFirestore.instance
+                        .collection("studentLogin")
+                        .where('name', isEqualTo: name)
+                        .get();
+
+                    log(snap.docs[0]['password'].toString());
+
+                    if (password == snap.docs[0]['password'].toString()) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => homeScreen()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Invalid credentials")));
                     }
                   },
                   child: const Text('Sign In'),
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 signUpOption()
               ],
@@ -104,23 +111,6 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         )
       ],
-    );
-  }
-
-  Widget forgetPassword(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 35,
-      alignment: Alignment.bottomRight,
-      child: TextButton(
-        child: const Text(
-          "Forgot Password?",
-          style: TextStyle(color: Colors.white70),
-          textAlign: TextAlign.right,
-        ),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResetPassword())),
-      ),
     );
   }
 }

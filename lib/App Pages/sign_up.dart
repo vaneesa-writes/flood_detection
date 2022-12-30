@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flood_detection/App Pages/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flood_detection/App%20Pages/home.dart';
 import 'package:flood_detection/reusable_widgets/reusable.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _nameTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             padding: EdgeInsets.fromLTRB(20, 120, 20, 200),
             child: Column(
               children: <Widget>[
-                const SizedBox(
-                  height: 200,
-                ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
-                    _userNameTextController),
+                logoWidget("assets/images/student.png"),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter your Nmae", Icons.person_outline,
+                    false, _nameTextController),
                 const SizedBox(
                   height: 20,
                 ),
@@ -58,23 +57,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontSize: 27, fontWeight: FontWeight.w700),
                   ),
                   onPressed: () async {
-                    try {
-                      final user = await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _emailTextController.text.trim(),
-                              password: _passwordTextController.text.trim());
-
-                      if (user != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => uploadimage()));
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
+                    String name = _nameTextController.text.trim();
+                    String password = _passwordTextController.text.trim();
+                    FirebaseFirestore.instance.collection("studentLogin").add({
+                      "name": name,
+                      "password": password,
+                    }).then((value) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => homeScreen()));
+                    }).catchError((error) => ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                            SnackBar(content: Text("Sign Up Failed"))));
                   },
-                  child: const Text('Sign In'),
+                  child: const Text('Sign Up'),
                 ),
               ],
             ),
